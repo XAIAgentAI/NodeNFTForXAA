@@ -27,7 +27,4 @@ import {Vm} from "./Vm.sol";
 import {TestBase} from "./Base.sol";
 
 // ⭐️ TEST
-abstract contract Test is TestBase, StdAssertions, StdChains, StdCheats, StdInvariant, StdUtils {
-    // Note: IS_TEST() must return true.
-    bool public IS_TEST = true;
-}
+abstract contract Test is TestBase, StdAssertions, StdChains, StdCheats, StdInvariant, StdUtils {}

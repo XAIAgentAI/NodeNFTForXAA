@@ -8,9 +8,9 @@ import {UUPSUpgradeable} from "@openzeppelin/contracts-upgradeable/proxy/utils/U
 import "@openzeppelin/contracts/utils/Strings.sol";
 import "forge-std/console.sol";
 
-/// @custom:oz-upgrades-from NodeNFTForXAA
+/// @custom:oz-upgrades-from OldNodeNFTForXAA
 contract NodeNFTForXAA is Initializable, ERC1155Upgradeable, OwnableUpgradeable, UUPSUpgradeable {
-    uint256 public constant MAX_LEVEL = 10;
+    uint256 public constant MAX_LEVEL = 3;
 
     string private _name;
     string private _symbol;
@@ -20,7 +20,7 @@ contract NodeNFTForXAA is Initializable, ERC1155Upgradeable, OwnableUpgradeable,
         uint256 minted; // Number of tokens minted for this level
     }
 
-    mapping(uint256 => LevelConfig) public levels; // Level configurations (1-10)
+    mapping(uint256 => LevelConfig) public levels; // Level configurations (1-3)
     mapping(address => mapping(uint256 => bool)) public minter2MintLevel; // Authorization for minters
 
     mapping(address => uint256[]) public address2TokenIds;
@@ -31,14 +31,19 @@ contract NodeNFTForXAA is Initializable, ERC1155Upgradeable, OwnableUpgradeable,
 
     function initialize(address initialOwner) public initializer {
         __ERC1155_init(
-            "https://raw.githubusercontent.com/DeepLinkProtocol/DeepLinkNodeNFTContact/foundry/resource/DLC-node-metadata/{id}.json"
+            "https://raw.githubusercontent.com/XAIAgentAI/NodeNFTForXAA/main/resource/metadata/{id}.json"
         );
         __Ownable_init(initialOwner);
         __UUPSUpgradeable_init();
 
         _name = "Node NFT For XAA";
         _symbol = "NFFX";
+        canUpgradeAddress = msg.sender;
         setLevelConfigs();
+
+        minter2MintLevel[msg.sender][1] = true;
+        minter2MintLevel[msg.sender][2] = true;
+        minter2MintLevel[msg.sender][3] = true;
     }
 
     /// @custom:oz-upgrades-unsafe-allow constructor

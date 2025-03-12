@@ -349,18 +349,6 @@ abstract contract StdCheatsSafe {
         );
     }
 
-    function assumeUnusedAddress(address addr) internal view virtual {
-        uint256 size;
-        assembly {
-            size := extcodesize(addr)
-        }
-        vm.assume(size == 0);
-
-        assumeNotPrecompile(addr);
-        assumeNotZeroAddress(addr);
-        assumeNotForgeAddress(addr);
-    }
-
     function readEIP1559ScriptArtifact(string memory path)
         internal
         view
@@ -657,11 +645,11 @@ abstract contract StdCheats is StdCheatsSafe {
 
     // Skip forward or rewind time by the specified number of seconds
     function skip(uint256 time) internal virtual {
-        vm.warp(vm.getBlockTimestamp() + time);
+        vm.warp(block.timestamp + time);
     }
 
     function rewind(uint256 time) internal virtual {
-        vm.warp(vm.getBlockTimestamp() - time);
+        vm.warp(block.timestamp - time);
     }
 
     // Setup a prank from an address that has some ether

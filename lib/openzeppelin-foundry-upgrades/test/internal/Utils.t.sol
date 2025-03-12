@@ -2,10 +2,9 @@
 pragma solidity ^0.8.20;
 
 import {Test} from "forge-std/Test.sol";
+import {strings} from "solidity-stringutils/src/strings.sol";
 
 import {Utils, ContractInfo} from "openzeppelin-foundry-upgrades/internal/Utils.sol";
-
-import {StringFinder} from "openzeppelin-foundry-upgrades/internal/StringFinder.sol";
 
 import {MyContractName} from "../contracts/MyContractFile.sol";
 
@@ -104,7 +103,7 @@ contract UtilsTest is Test {
         assertEq(Utils.getOutDir(), "out");
     }
 
-    using StringFinder for string;
+    using strings for *;
 
     function testGetBuildInfoFile() public {
         ContractInfo memory contractInfo = Utils.getContractInfo("Greeter.sol", "out");
@@ -114,8 +113,8 @@ contract UtilsTest is Test {
             "out"
         );
 
-        assertTrue(buildInfoFile.startsWith("out/build-info"));
-        assertTrue(buildInfoFile.endsWith(".json"));
+        assertTrue(buildInfoFile.toSlice().startsWith("out/build-info".toSlice()));
+        assertTrue(buildInfoFile.toSlice().endsWith(".json".toSlice()));
     }
 
     function testToBashCommand() public pure {
