@@ -134,7 +134,7 @@ contract NodeNFTForXAA is Initializable, ERC1155Upgradeable, OwnableUpgradeable,
 
     function _baseURI() internal pure returns (string memory) {
         return
-            "https://raw.githubusercontent.com/DeepLinkProtocol/DeepLinkNodeNFTContact/foundry/resource/DLC-node-metadata/";
+            "https://raw.githubusercontent.com/XAIAgentAI/NodeNFTForXAA/main/resource/metadata/";
     }
 
     function uri(uint256 id) public pure override returns (string memory) {
